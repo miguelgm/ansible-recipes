@@ -1,0 +1,15 @@
+packages:
+  - tcpdump
+  - htop
+  - bind-utils
+  - nmap-ncat
+  - vim-enhanced
+  - libselinux-python
+  - wget
+  - curl
+  - rsync
+  - ntp
+  - jq
+
+repos:
+  - epel-release

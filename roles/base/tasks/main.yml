@@ -1,0 +1,33 @@
+- name: Install yum repositories
+  yum: name={{ item }} state=latest
+  with_items: "{{ repos }}"
+
+- name: Install packages
+  yum: name={{ item }} state=latest
+  with_items: "{{ packages }}"
+
+- name: SO update
+  yum: name=* state=latest
+
+- name: Config bash aliases
+  lineinfile:
+    dest: /root/.bashrc
+    regexp: "^alias vi"
+    insertafter: "^alias mv"
+    line: "alias vi=vim"
+
+- name: Copy .vimrc
+  copy:
+    src: roles/base/files/vimrc
+    dest: /root/.vimrc
+    force: no
+  register: is_copied
+
+#- debug: var=is_copied
+
+- name: Config vim
+  when: is_copied.changed == false
+  lineinfile:
+    dest: /root/.vimrc
+    regexp: "^:set background"
+    line: ":set background=dark"
